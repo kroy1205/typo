@@ -126,7 +126,7 @@ class Article < Content
   	other_article = Article.find_by_id(other_article_id)
   	if other_article_id and self.id
   	  self.body += ("\n" + other_article.body)
-  	  other_article.comments.each do |comment|
+      Comment.find_each(:conditions => "article_id = #{other_article_id}") do |comment|
   	    comment.article_id = self.id
   	    comment.save!
   	  end
