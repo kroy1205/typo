@@ -43,6 +43,21 @@ Given /^the blog is set up$/ do
                 :state => 'active'})
 end
 
+And /the following (.*) exist/ do |category, table|
+  table.hashes.each do |element|
+    # each returned element will be a hash whose key is the table header.
+    # you should arrange to add that article to the database here.
+    if category == "articles"
+    	Article.create(id: element['id'], allow_comments: element['allow_comments'], type: element['type'], body: element['body'], author: element['author'],  title: element['title'], published: element['published'])
+    elsif category == "users"
+      User.create(login: element['login'], profile_id: element['profile_id'], name: element['name'], state: element['state'])
+    elsif category == "comments"
+      Comment.create(type: element['type'], body: element['body'], author: element['author'], article_id: element['article_id'])
+    end
+  end
+end
+
+
 And /^I am logged into the admin panel$/ do
   visit '/accounts/login'
   fill_in 'user_login', :with => 'admin'

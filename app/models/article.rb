@@ -122,6 +122,19 @@ class Article < Content
 
   end
 
+  def merge_with(other_article_id)
+  	other_article = Article.find_by_id(other_article_id)
+  	if other_article_id and self.id
+  	  self.body += ("\n" + other_article.body)
+  	  self.comments << other_article.comments
+  	  self.save!
+  	  other_article.destroy
+  	  return true
+  	else
+  	  return false
+  	end
+  end
+
   def year_url
     published_at.year.to_s
   end

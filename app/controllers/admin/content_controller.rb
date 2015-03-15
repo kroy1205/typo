@@ -6,6 +6,22 @@ class Admin::ContentController < Admin::BaseController
 
   cache_sweeper :blog_sweeper
 
+  def merge_with
+  	if !current_user.admin?
+  		flash[:notice] = _("Only admins can merge articles together")
+  		redirect_to :action => 'index'
+  	else
+  	  article = Article.find_by_id(params[:id])
+  	  if article.merge_with(params[:merge_with])
+  	    flash[:notice] = _("Articles were successfully merged together")
+  	    redirect_to :action => 'index'
+  	  else
+  	  	flash[:notice] = _("These two articles can't be merged together")
+  	  	redirect_to :action => 'index'
+  	  end
+  	end
+  end
+
   def auto_complete_for_article_keywords
     @items = Tag.find_with_char params[:article][:keywords].strip
     render :inline => "<%= raw auto_complete_result @items, 'name' %>"
@@ -29,6 +45,7 @@ class Admin::ContentController < Admin::BaseController
 
   def edit
     @article = Article.find(params[:id])
+    @curr_user_admin = current_user.admin?
     unless @article.access_by? current_user
       redirect_to :action => 'index'
       flash[:error] = _("Error, you are not allowed to perform this action")
