@@ -8519,3 +8519,5 @@ Rendered admin/content/_form.html.erb (111.8ms)
 Rendered admin/shared/_edit.html.erb (114.5ms)
 Rendered admin/content/new.html.erb within layouts/administration (127.4ms)
 Completed 200 OK in 348ms (Views: 128.2ms | ActiveRecord: 6.1ms)
+DEPRECATION WARNING: config.action_view.debug_rjs will be removed in 3.1, from 3.1 onwards you will need to install prototype-rails to continue to use RJS templates . (called from <top (required)> at /home/saasbook/Documents/typo/config/environment.rb:5)
+TypoPlugins: just registered plugin [TypoPlugins::Gravatar] for :avatar target.
